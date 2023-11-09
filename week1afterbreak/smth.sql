@@ -115,10 +115,20 @@
 -- from invoice i join Customer c on i.CustomerId = c.CustomerId
 -- for xml path('Invoice'), root('Invoices')
 
-select p.name as playlistname,
-(select t.trackid [track/@id], t.name as track from track t join PlaylistTrack pt on t.trackid = pt.trackid
-where pt.PlaylistId = p.PlaylistId
-for xml path(''), Type) as Tracks
-from Playlist p
-for xml path('Playlist'), root('Playlists')
+-- select p.name as playlistname,
+-- (select t.trackid [track/@id], t.name as track from track t join PlaylistTrack pt on t.trackid = pt.trackid
+-- where pt.PlaylistId = p.PlaylistId
+-- for xml path(''), Type) as Tracks
+-- from Playlist p
+-- for xml path('Playlist'), root('Playlists')
+
+-- select art.name,
+-- (select title, 
+-- (select t.name [Title],
+--  milliseconds/1000.00/60 [Minutes]
+-- from track t where t.albumid = a.albumid 
+-- for xml path('Track')) as Tracks from album a
+-- where a.artistid = art.artistid for xml path('Album'), type)  Albums
+-- from artist art
+-- for xml path('Artist'), root('Artists')
 
