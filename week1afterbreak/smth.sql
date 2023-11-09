@@ -132,3 +132,44 @@
 -- from artist art
 -- for xml path('Artist'), root('Artists')
 
+-- declare @Gname varchar(100)
+-- set @Gname = 'Metal'
+-- -- -- select @Gname
+-- -- select t.name from track t join genre g on t.GenreId = g.GenreId
+-- -- where g.Name = @Gname
+
+-- declare @intval int, @dcml decimal(10, 2)
+
+-- select @intval = count(*), @dcml = sum(Milliseconds/1000.00/60) from track t join genre g on t.GenreId = g.GenreId
+-- where g.Name = @gname
+
+-- print('Count of ' + @gname + ' tracks: ' + cast(@intval as varchar(100)) + ' duration: ' + cast(@dcml as varchar(100)))
+
+-- Declare @BooksXML xml;
+-- SET @BooksXML = '
+-- <catalog>
+-- <book id="bk101">
+-- <author>Gambardella, Matthew</author>
+-- <title>XML Developer''s Guide</title>
+-- <genre>Computer</genre>
+-- </book>
+-- <book id="bk101">
+-- <author>Smith, John</author>
+-- <title>XML Developer Guide</title>
+-- <genre>Computer</genre>
+-- </book>
+-- </catalog>';
+-- -- select @BooksXML.query('/catalog/book/author') 
+-- -- select @BooksXML.value('(catalog/book/author) [1]', 'varchar(100)')
+-- SELECT
+-- Book.value('@id', 'VARCHAR(50)') AS BookID,
+-- Book.value('(author)[1]', 'VARCHAR(100)') AS Author,
+-- Book.value('(title)[1]', 'VARCHAR(100)') AS Title,
+-- Book.value('(genres)[1]', 'VARCHAR(100)') AS Genre
+-- FROM @BooksXML.nodes('/catalog/book') AS T(Book);
+
+
+select isnull(g.Name, 'No genre') [GenreName],
+(select a.AlbumId [album/@id], a.title[album/title] from album a where a.AlbumId = t.AlbumId for xml path(''), type) as Albums from track t 
+left join genre g on g.GenreId = t.GenreId
+for xml path('Genre'), root('Genres')
