@@ -121,3 +121,4 @@ where pt.PlaylistId = p.PlaylistId
 for xml path(''), Type) as Tracks
 from Playlist p
 for xml path('Playlist'), root('Playlists')
+
